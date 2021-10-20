@@ -33,6 +33,6 @@ public class MyBean implements Serializable {
 
     @Override
     public String toString() {
-        return "{foo:" + this.foo + ",bar:" + this.bar + "}";
+        return "{foo: " + this.foo + ", bar: " + this.bar + "}";
     }
 }

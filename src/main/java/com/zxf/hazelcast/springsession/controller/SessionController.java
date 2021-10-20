@@ -40,7 +40,7 @@ public class SessionController {
             session = request.getSession();
             session.setAttribute(principalAttrName, principal);
             session.setAttribute(beanAttrName, myBean);
-            return "Session created: " + toString(session) + "\n";
+            return "Session created: " + toString(session) + "<br>";
         }
     }
 
@@ -50,7 +50,7 @@ public class SessionController {
         if (session == null) {
             return "No session found.";
         } else {
-            return "Session found: " + toString(session) + "\n";
+            return "Session found: " + toString(session) + "<br>";
         }
     }
 
@@ -62,14 +62,14 @@ public class SessionController {
         } else {
             String principal = (String) session.getAttribute(principalAttrName);
             Map<String, ? extends Session> sessions = sessionRepository.findByPrincipalName(principal);
-            return "Sessions found: \n" + sessions.values().stream().map(this::toString).collect(Collectors.joining("\n"));
+            return "Sessions found: <br>" + sessions.values().stream().map(this::toString).collect(Collectors.joining("<br>"));
         }
     }
 
     @GetMapping("/list/all")
     public String listAll(HttpServletRequest request) {
         IMap<String, MapSession> sessions = hazelcastInstance.getMap(DEFAULT_SESSION_MAP_NAME);
-        return "Sessions found: \n" + sessions.values().stream().map(this::toString).collect(Collectors.joining("\n"));
+        return "Sessions found: <br>" + sessions.values().stream().map(this::toString).collect(Collectors.joining("<br>"));
     }
 
     private String toString(HttpSession session) {
