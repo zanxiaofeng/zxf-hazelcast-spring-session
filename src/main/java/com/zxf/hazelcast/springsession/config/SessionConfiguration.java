@@ -31,10 +31,12 @@ class SessionConfiguration {
                 .setName(Hazelcast4IndexedSessionRepository.PRINCIPAL_NAME_ATTRIBUTE)
                 .setExtractorClassName(Hazelcast4PrincipalNameExtractor.class.getName());
 
+        IndexConfig indexConfig = new IndexConfig(IndexType.HASH, Hazelcast4IndexedSessionRepository.PRINCIPAL_NAME_ATTRIBUTE);
+
         // Configure the sessions map
         config.getMapConfig(SESSIONS_MAP_NAME)
-                .addAttributeConfig(attributeConfig).addIndexConfig(
-                        new IndexConfig(IndexType.HASH, Hazelcast4IndexedSessionRepository.PRINCIPAL_NAME_ATTRIBUTE));
+                .addAttributeConfig(attributeConfig)
+                .addIndexConfig(indexConfig);
 
         // Use custom serializer to de/serialize sessions faster. This is optional.
         SerializerConfig serializerConfig = new SerializerConfig();

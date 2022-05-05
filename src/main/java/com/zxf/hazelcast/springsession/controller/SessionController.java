@@ -3,6 +3,7 @@ package com.zxf.hazelcast.springsession.controller;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 import com.zxf.hazelcast.springsession.bean.MyBean;
+import org.openjdk.jol.vm.VM;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.session.MapSession;
 import org.springframework.session.Session;
@@ -54,6 +55,20 @@ public class SessionController {
         }
     }
 
+    @GetMapping("/info-update")
+    public String infoUpdate(HttpServletRequest request, @RequestParam String newBar) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "No session found.";
+        } else {
+            MyBean myBean = (MyBean) session.getAttribute(beanAttrName);
+            myBean.setBar(newBar);
+            //Need set it again
+            session.setAttribute(beanAttrName, myBean);
+            return "Session found: " + toString(session) + "<br>";
+        }
+    }
+
     @GetMapping("/list/my")
     public String listMy(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
@@ -75,19 +90,22 @@ public class SessionController {
     private String toString(HttpSession session) {
         String principal = (String) session.getAttribute(principalAttrName);
         MyBean myBean = (MyBean) session.getAttribute(beanAttrName);
+        Long addr = VM.current().addressOf(myBean);
         String time = new Date(session.getCreationTime()).toString();
-        return "sessionId=" + session.getId() + ", time=" + time + ", principal=" + principal + ", bean=" + myBean;
+        return "sessionId=" + session.getId() + ", time=" + time + ", principal=" + principal + ", bean=" + myBean + ":addr:" + addr;
     }
 
     private String toString(Session session) {
         String principal = (String) session.getAttribute(principalAttrName);
         MyBean myBean = (MyBean) session.getAttribute(beanAttrName);
-        return "sessionId=" + session.getId() + ", principal=" + principal + ", bean=" + myBean;
+        Long addr = VM.current().addressOf(myBean);
+        return "sessionId=" + session.getId() + ", principal=" + principal + ", bean=" + myBean + ":addr:" + addr;
     }
 
     private String toString(MapSession session) {
         String principal = (String) session.getAttribute(principalAttrName);
         MyBean myBean = (MyBean) session.getAttribute(beanAttrName);
-        return "sessionId=" + session.getId() + ", principal=" + principal + ", bean=" + myBean;
+        Long addr = VM.current().addressOf(myBean);
+        return "sessionId=" + session.getId() + ", principal=" + principal + ", bean=" + myBean + ":addr:" + addr;
     }
 }
