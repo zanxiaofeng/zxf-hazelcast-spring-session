@@ -19,7 +19,9 @@
 
 # Test Step 2
 ## session one
-- http://localhost:8080/map/items
+- http://localhost:8080/maps
+- http://localhost:8080/maps/spring:session:sessions/items
 
 ## session tow
-- http://127.0.0.1:8081/map/items
+- http://127.0.0.1:8081/maps
+- http://127.0.0.1:8081/maps/spring:session:sessions/items
