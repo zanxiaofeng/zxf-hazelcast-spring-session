@@ -1,11 +1,8 @@
 package com.zxf.hazelcast.springsession.controller;
 
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.map.IMap;
 import com.zxf.hazelcast.springsession.bean.MyBean;
 import org.openjdk.jol.vm.VM;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.session.MapSession;
+import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.session.Session;
 import org.springframework.session.hazelcast.Hazelcast4IndexedSessionRepository;
 import org.springframework.web.bind.annotation.*;
@@ -16,16 +13,11 @@ import java.util.Date;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.springframework.session.hazelcast.Hazelcast4IndexedSessionRepository.DEFAULT_SESSION_MAP_NAME;
-
 @RestController
 @RequestMapping("/sessions")
 public class SessionController {
-    private static final String principalAttrName = Hazelcast4IndexedSessionRepository.PRINCIPAL_NAME_INDEX_NAME;
-    private static final String beanAttrName = "bean";
-
-    @Autowired
-    private HazelcastInstance hazelcastInstance;
+    public static final String principalAttrName = Hazelcast4IndexedSessionRepository.PRINCIPAL_NAME_INDEX_NAME;
+    public static final String beanAttrName = "bean";
 
     @Autowired
     Hazelcast4IndexedSessionRepository sessionRepository;
@@ -81,12 +73,6 @@ public class SessionController {
         }
     }
 
-    @GetMapping("/list/all")
-    public String listAll(HttpServletRequest request) {
-        IMap<String, MapSession> sessions = hazelcastInstance.getMap(DEFAULT_SESSION_MAP_NAME);
-        return "Sessions found: <br>" + sessions.values().stream().map(this::toString).collect(Collectors.joining("<br>"));
-    }
-
     private String toString(HttpSession session) {
         String principal = (String) session.getAttribute(principalAttrName);
         MyBean myBean = (MyBean) session.getAttribute(beanAttrName);
@@ -96,13 +82,6 @@ public class SessionController {
     }
 
     private String toString(Session session) {
-        String principal = (String) session.getAttribute(principalAttrName);
-        MyBean myBean = (MyBean) session.getAttribute(beanAttrName);
-        Long addr = VM.current().addressOf(myBean);
-        return "sessionId=" + session.getId() + ", principal=" + principal + ", bean=" + myBean + ":addr:" + addr;
-    }
-
-    private String toString(MapSession session) {
         String principal = (String) session.getAttribute(principalAttrName);
         MyBean myBean = (MyBean) session.getAttribute(beanAttrName);
         Long addr = VM.current().addressOf(myBean);
