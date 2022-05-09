@@ -48,15 +48,17 @@ public class SessionController {
     }
 
     @GetMapping("/info-update")
-    public String infoUpdate(HttpServletRequest request, @RequestParam String newBar) {
+    public String infoUpdate(HttpServletRequest request, @RequestParam String newBar, @RequestParam(defaultValue = "false") Boolean save) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return "No session found.";
         } else {
             MyBean myBean = (MyBean) session.getAttribute(beanAttrName);
             myBean.setBar(newBar);
-            //Need set it again
-            session.setAttribute(beanAttrName, myBean);
+            if (save) {
+                //Need set it again
+                session.setAttribute(beanAttrName, myBean);
+            }
             return "Session found: " + toString(session) + "<br>";
         }
     }

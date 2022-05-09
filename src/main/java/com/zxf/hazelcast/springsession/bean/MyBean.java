@@ -7,10 +7,12 @@ public class MyBean implements Serializable {
     private String bar;
 
     public MyBean() {
-
+        //Java 反序列化不会调用默认构造函数创建对象
+        System.out.println("MyBean::ctor()");
     }
 
     public MyBean(String foo, String bar) {
+        System.out.println("MyBean::ctor(foo, bar)");
         this.foo = foo;
         this.bar = bar;
     }

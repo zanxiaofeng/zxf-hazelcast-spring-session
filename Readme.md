@@ -14,7 +14,7 @@
 - http://127.0.0.1:8081/sessions/create?principal=ben&foo=123&bar=456
 - http://127.0.0.1:8081/sessions/info
 - http://127.0.0.1:8081/sessions/list/my
-- http://127.0.0.1:8081/sessions/info-update?newBar=2344
+- http://127.0.0.1:8081/sessions/info-update?newBar=2344&save=true
 - http://127.0.0.1:8081/sessions/list/my
 
 # Test Step 2
