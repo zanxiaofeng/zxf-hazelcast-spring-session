@@ -35,14 +35,19 @@ public class MapController {
 
     @GetMapping("/{map}/items")
     public String items(HttpServletRequest request, @PathVariable String map) {
-        IMap<String, MapSession> sessions = hazelcastInstance.getMap(map);
+        IMap<String, Object> sessions = hazelcastInstance.getMap(map);
         return "Items found: <br>" + sessions.entrySet().stream().map(this::toString).collect(Collectors.joining("<br>"));
     }
 
-    private String toString(Map.Entry<String, MapSession> entry) {
-        String principal = (String) entry.getValue().getAttribute(principalAttrName);
-        MyBean myBean = (MyBean) entry.getValue().getAttribute(beanAttrName);
-        Long addr = VM.current().addressOf(myBean);
-        return "key:" + entry.getKey() + ", value:{sessionId=" + entry.getValue().getId() + ", principal=" + principal + ", bean=" + myBean + ":addr:" + addr + "}";
+    private String toString(Map.Entry<String, Object> entry) {
+        if (entry.getValue() instanceof MapSession) {
+            MapSession session = (MapSession) entry.getValue();
+            String principal = (String) session.getAttribute(principalAttrName);
+            MyBean myBean = (MyBean) session.getAttribute(beanAttrName);
+            Long addr = VM.current().addressOf(myBean);
+            return "key:" + entry.getKey() + ", value:{sessionId=" + session.getId() + ", principal=" + principal + ", bean=" + myBean + ":addr:" + addr + "}";
+        }
+
+        return "key:" + entry.getKey() + ", value: " + entry.getValue().toString();
     }
 }
