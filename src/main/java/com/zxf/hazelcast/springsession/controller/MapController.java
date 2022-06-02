@@ -45,9 +45,9 @@ public class MapController {
             String principal = (String) session.getAttribute(principalAttrName);
             MyBean myBean = (MyBean) session.getAttribute(beanAttrName);
             Long addr = VM.current().addressOf(myBean);
-            return "key:" + entry.getKey() + ", value:{sessionId=" + session.getId() + ", principal=" + principal + ", bean=" + myBean + ":addr:" + addr + "}";
+            return "key: " + entry.getKey() + ", value: {sessionId=" + session.getId() + ", principal=" + principal + ", bean=" + myBean + ":addr:" + addr + "}";
         }
 
-        return "key:" + entry.getKey() + ", value: " + entry.getValue().toString();
+        return "key: " + entry.getKey() + ", value: " + entry.getValue().toString();
     }
 }
