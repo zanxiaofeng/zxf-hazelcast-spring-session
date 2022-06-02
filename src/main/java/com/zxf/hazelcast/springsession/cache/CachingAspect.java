@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.expression.MapAccessor;
+import org.springframework.expression.ParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
@@ -50,6 +51,7 @@ public class CachingAspect {
         StandardEvaluationContext context = new StandardEvaluationContext();
         context.addPropertyAccessor(new MapAccessor());
         context.setRootObject(parameters);
-        return (String) new SpelExpressionParser().parseExpression(keyTemplate).getValue(context);
+        return new SpelExpressionParser().parseExpression(keyTemplate, ParserContext.TEMPLATE_EXPRESSION)
+                .getValue(context, String.class);
     }
 }
