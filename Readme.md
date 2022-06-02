@@ -25,3 +25,10 @@
 ## session tow
 - http://127.0.0.1:8081/maps
 - http://127.0.0.1:8081/maps/spring:session:sessions/items
+
+# Test Cache
+- http://localhost:8080/caches/one?id=1&name=a
+- http://localhost:8080/caches/one-by-custom?id=2&name=b
+- http://localhost:8080/maps
+- http://localhost:8080/maps/default-cache/items
+- http://localhost:8080/maps/custom-cache/items

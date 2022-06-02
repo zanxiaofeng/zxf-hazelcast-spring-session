@@ -1,6 +1,5 @@
 package com.zxf.hazelcast.springsession.controller;
 
-import com.zxf.hazelcast.springsession.cache.Caching;
 import com.zxf.hazelcast.springsession.service.CacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,5 +16,10 @@ public class CacheController {
     @GetMapping("/one")
     public String byCache(@RequestParam String id, @RequestParam String name) {
         return cacheService.byCache(id, name);
+    }
+
+    @GetMapping("/one-by-custom")
+    public String byCustomCache(@RequestParam String id, @RequestParam String name) {
+        return cacheService.byCustomCache(id, name);
     }
 }
