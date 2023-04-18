@@ -32,3 +32,22 @@
 - http://localhost:8080/maps
 - http://localhost:8080/maps/default-cache/items
 - http://localhost:8080/maps/custom-cache/items
+
+# Spring Session Core Classes
+- org.springframework.session.config.annotation.web.http.EnableSpringHttpSession
+- org.springframework.session.config.annotation.web.http.SpringHttpSessionConfiguration
+- org.springframework.session.config.SessionRepositoryCustomizer
+- org.springframework.session.SessionRepository
+- org.springframework.session.config.annotation.web.server.EnableSpringWebSession
+- org.springframework.session.config.annotation.web.server.SpringWebSessionConfiguration
+- org.springframework.session.config.ReactiveSessionRepositoryCustomizer
+- org.springframework.session.ReactiveSessionRepository
+
+
+# Hazelcast Session Core Classes
+- org.springframework.session.hazelcast.config.annotation.web.http.EnableHazelcastHttpSession
+- org.springframework.session.hazelcast.config.annotation.SpringSessionHazelcastInstance
+- org.springframework.session.hazelcast.config.annotation.web.http.HazelcastHttpSessionConfiguration
+- org.springframework.session.hazelcast.HazelcastSessionSerializer
+- org.springframework.session.hazelcast.Hazelcast4IndexedSessionRepository
+- org.springframework.session.hazelcast.HazelcastIndexedSessionRepository
