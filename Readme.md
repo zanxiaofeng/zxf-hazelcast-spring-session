@@ -51,3 +51,8 @@
 - org.springframework.session.hazelcast.HazelcastSessionSerializer
 - org.springframework.session.hazelcast.Hazelcast4IndexedSessionRepository
 - org.springframework.session.hazelcast.HazelcastIndexedSessionRepository
+- com.hazelcast.map.listener.MapListener
+- com.hazelcast.map.listener.EntryAddedListener
+- com.hazelcast.map.listener.EntryEvictedListener
+- com.hazelcast.map.listener.EntryRemovedListener
+- com.hazelcast.map.listener.EntryExpiredListener
