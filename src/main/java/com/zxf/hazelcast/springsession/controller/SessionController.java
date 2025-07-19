@@ -3,6 +3,7 @@ package com.zxf.hazelcast.springsession.controller;
 import com.zxf.hazelcast.springsession.bean.MyBean;
 import org.openjdk.jol.vm.VM;
 import org.springframework.beans.factory.annotation.Autowired;;
+import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.Session;
 import org.springframework.session.hazelcast.Hazelcast4IndexedSessionRepository;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class SessionController {
     public static final String beanAttrName = "bean";
 
     @Autowired
-    Hazelcast4IndexedSessionRepository sessionRepository;
+    FindByIndexNameSessionRepository sessionRepository;
 
     @GetMapping("/create")
     public String create(HttpServletRequest request, @RequestParam String principal,

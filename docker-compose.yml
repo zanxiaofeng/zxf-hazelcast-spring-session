@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  hazelcast:
+    image: hazelcast/hazelcast:5.3.6
+    ports:
+      - "5701:5701"
+    environment:
+      - JAVA_OPTS=-Dhazelcast.local.publicAddress=hazelcast:5701
+      - HZ_CLUSTERNAME=dev-cluster
+      - HZ_MANCENTER_URL=http://mancenter:8089/hazelcast-mancenter
+    networks:
+      - hazelcast-network
+  management-center:
+    image: hazelcast/management-center:5.3.3
+    ports:
+      - "8089:8089"
+    environment:
+      - MC_INIT_CMD=./mc-conf.sh cluster add --cluster-name=dev-cluster --member-addresses=hazelcast
+    depends_on:
+      - hazelcast
+    networks:
+      - hazelcast-network
+
+networks:
+  hazelcast-network:
+    driver: bridge
