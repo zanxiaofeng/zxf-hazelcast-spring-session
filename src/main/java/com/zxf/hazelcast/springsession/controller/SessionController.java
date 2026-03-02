@@ -2,14 +2,14 @@ package com.zxf.hazelcast.springsession.controller;
 
 import com.zxf.hazelcast.springsession.bean.MyBean;
 import org.openjdk.jol.vm.VM;
-import org.springframework.beans.factory.annotation.Autowired;;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.Session;
-import org.springframework.session.hazelcast.Hazelcast4IndexedSessionRepository;
+import org.springframework.session.hazelcast.HazelcastIndexedSessionRepository;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/sessions")
 public class SessionController {
-    public static final String principalAttrName = Hazelcast4IndexedSessionRepository.PRINCIPAL_NAME_INDEX_NAME;
+    public static final String principalAttrName = HazelcastIndexedSessionRepository.PRINCIPAL_NAME_INDEX_NAME;
     public static final String beanAttrName = "bean";
 
     @Autowired

@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.zxf.hazelcast.springsession.controller.SessionController.beanAttrName;
 import static com.zxf.hazelcast.springsession.controller.SessionController.principalAttrName;
-import static org.springframework.session.hazelcast.Hazelcast4IndexedSessionRepository.DEFAULT_SESSION_MAP_NAME;
+import static org.springframework.session.hazelcast.HazelcastIndexedSessionRepository.DEFAULT_SESSION_MAP_NAME;
 
 @RestController
 @RequestMapping("/maps")
