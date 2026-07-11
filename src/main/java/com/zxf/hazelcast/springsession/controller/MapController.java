@@ -2,10 +2,11 @@ package com.zxf.hazelcast.springsession.controller;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
+import com.hazelcast.spring.session.AttributeValue;
+import com.hazelcast.spring.session.BackingMapSession;
 import com.zxf.hazelcast.springsession.bean.MyBean;
 import org.openjdk.jol.vm.VM;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.session.MapSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +16,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.hazelcast.spring.session.HazelcastIndexedSessionRepository.DEFAULT_SESSION_MAP_NAME;
 import static com.zxf.hazelcast.springsession.controller.SessionController.beanAttrName;
-import static com.zxf.hazelcast.springsession.controller.SessionController.principalAttrName;
-import static org.springframework.session.hazelcast.HazelcastIndexedSessionRepository.DEFAULT_SESSION_MAP_NAME;
 
 @RestController
 @RequestMapping("/maps")
@@ -40,11 +40,11 @@ public class MapController {
     }
 
     private String toString(Map.Entry<String, Object> entry) {
-        if (entry.getValue() instanceof MapSession) {
-            MapSession session = (MapSession) entry.getValue();
-            String principal = (String) session.getAttribute(principalAttrName);
-            MyBean myBean = (MyBean) session.getAttribute(beanAttrName);
-            Long addr = VM.current().addressOf(myBean);
+        if (entry.getValue() instanceof BackingMapSession session) {
+            String principal = session.getPrincipalName();
+            AttributeValue beanValue = session.getAttribute(beanAttrName);
+            MyBean myBean = beanValue != null ? beanValue.deserialize(hazelcastInstance, MyBean.class) : null;
+            Long addr = myBean != null ? VM.current().addressOf(myBean) : null;
             return "key: " + entry.getKey() + ", value: {sessionId=" + session.getId() + ", principal=" + principal + ", bean=" + myBean + ":addr:" + addr + "}";
         }
 

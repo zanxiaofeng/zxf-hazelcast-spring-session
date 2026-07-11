@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   hazelcast:
-    image: hazelcast/hazelcast:5.3.6
+    image: hazelcast/hazelcast:5.7.0
     ports:
       - "5701:5701"
     environment:
@@ -12,7 +12,7 @@ services:
     networks:
       - hazelcast-network
   management-center:
-    image: hazelcast/management-center:5.3.3
+    image: hazelcast/management-center:5.7.0
     ports:
       - "8089:8089"
     environment:

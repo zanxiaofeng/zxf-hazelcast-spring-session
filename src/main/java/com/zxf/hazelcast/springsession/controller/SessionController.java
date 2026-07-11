@@ -5,7 +5,6 @@ import org.openjdk.jol.vm.VM;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.Session;
-import org.springframework.session.hazelcast.HazelcastIndexedSessionRepository;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/sessions")
 public class SessionController {
-    public static final String principalAttrName = HazelcastIndexedSessionRepository.PRINCIPAL_NAME_INDEX_NAME;
+    public static final String principalAttrName = FindByIndexNameSessionRepository.PRINCIPAL_NAME_INDEX_NAME;
     public static final String beanAttrName = "bean";
 
     @Autowired

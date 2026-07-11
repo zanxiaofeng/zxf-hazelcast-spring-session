@@ -80,3 +80,24 @@
 - maven.compiler.target
 ## For more controls
 - Use the maven-compiler-plugin configuration settings.
+
+# How to upgrade to Spring Boot 4.1 (from 3.5.x)
+## Dependency changes (pom.xml)
+- spring-boot-starter-parent: 3.5.x -> 4.1.0
+- spring-boot-starter-aop -> spring-boot-starter-aspectj (Boot 4 重命名)
+- 新增 spring-boot-starter-hazelcast (Boot 4 将 Hazelcast 自动配置外置为独立 starter)
+- 废弃 org.springframework.session:spring-session-hazelcast -> 改用 com.hazelcast.spring:hazelcast-spring-session:4.0.0
+  - Spring Session 4.0 起, Hazelcast 集成改由 Hazelcast 团队维护, 旧的 spring-session-hazelcast 模块已移除
+- hazelcast 5.5.0 (Boot BOM 默认) -> 5.7.0 (匹配 hazelcast-spring-session 运行时)
+
+## Code migration (package rename)
+- org.springframework.session.hazelcast.* -> com.hazelcast.spring.session.*
+- @EnableHazelcastHttpSession / HazelcastIndexedSessionRepository / HazelcastSessionConfiguration 包路径变更
+- HazelcastIndexedSessionRepository.PRINCIPAL_NAME_INDEX_NAME 常量已移除 -> 改用 FindByIndexNameSessionRepository.PRINCIPAL_NAME_INDEX_NAME
+- backing map 值类型由 MapSession 变为 BackingMapSession, 属性值需经 AttributeValue 取出
+
+## Client-server topology (key fix)
+- Boot 自动配置通过 HazelcastConnectionDetails 构建 client, 但不会注册 hazelcast-spring-session 的 Compact 序列化器
+- 需覆盖 HazelcastConnectionDetails, 在 ClientConfig 上调用 HazelcastSessionConfiguration.applySerializationConfig(config),
+  否则 BackingMapSession 序列化失败 (参见 config/HazelcastConfig.java)
+- Embedded 拓扑则需在 Config (member) 上调用 applySerializationConfig
